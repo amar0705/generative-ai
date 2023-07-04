@@ -1,0 +1,15 @@
+import pickle
+
+orders = [
+    {'id': 1, 'customer_name': 'John Doe', 'dishes': [
+        {'id': 2, 'name': 'Burger', 'price': 6.99, 'availability': True},
+        {'id': 4, 'name': 'Pasta', 'price': 9.99, 'availability': True}
+    ], 'status': 'ready'},
+    {'id': 2, 'customer_name': 'Jane Smith', 'dishes': [
+        {'id': 1, 'name': 'Pizza', 'price': 10.99, 'availability': True},
+        {'id': 3, 'name': 'Salad', 'price': 8.99, 'availability': False}
+    ], 'status': 'received'}
+]
+
+with open('orders.pkl', 'wb') as file:
+    pickle.dump(orders, file)
