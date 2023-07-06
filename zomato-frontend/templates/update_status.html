@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        color: #333;
+        text-align: center;
+      }
+
+      form {
+        width: 300px;
+        margin: 0 auto;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 6px;
+        border: 1px solid #ccc;
+      }
+
+      input[type="submit"] {
+        padding: 8px 16px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Update Order Status</h1>
+    <form action="/update_status" method="post">
+      <label for="order_id">Order ID:</label>
+      <input type="text" id="order_id" name="order_id" required /><br /><br />
+      <label for="new_status">New Status:</label>
+      <input type="text" id="new_status" name="new_status" required /><br /><br />
+      <input type="submit" value="Update Status" />
+    </form>
+  </body>
+</html>
