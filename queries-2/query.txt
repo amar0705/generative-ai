@@ -1,0 +1,829 @@
+1. Create a Customers table / collection with the following fields: id (unique identifier), name, email, address, and phone_number.
+
+MongoDB:
+db.customers.createCollection({
+  "name": "Customers",
+  "fields": {
+    "_id": {
+      "type": "ObjectId"
+    },
+    "name": {
+      "type": "String"
+    },
+    "email": {
+      "type": "String"
+    },
+    "address": {
+      "type": "String"
+    },
+    "phone_number": {
+      "type": "String"
+    }
+  }
+});
+
+
+SQL:
+CREATE TABLE Customers (
+  id INT PRIMARY KEY,
+  name VARCHAR(100),
+  email VARCHAR(100),
+  address VARCHAR(255),
+  phone_number VARCHAR(50)
+);
+
+2. Insert five rows / documents into the Customers table / collection with data of your choice.
+
+MongoDB:
+db.Customers.insertMany([
+  {
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "address": "123 Main St, CityA",
+    "phone_number": "123-456-7890"
+  },
+  {
+    "name": "Jane Smith",
+    "email": "jane.smith@example.com",
+    "address": "456 Elm St, CityB",
+    "phone_number": "987-654-3210"
+  },
+  {
+    "name": "Alice Johnson",
+    "email": "alice.johnson@example.com",
+    "address": "789 Oak St, CityC",
+    "phone_number": "555-123-4567"
+  },
+  {
+    "name": "Bob Williams",
+    "email": "bob.williams@example.com",
+    "address": "321 Pine St, CityD",
+    "phone_number": "111-222-3333"
+  },
+  {
+    "name": "Emily Davis",
+    "email": "emily.davis@example.com",
+    "address": "654 Cedar St, CityE",
+    "phone_number": "444-555-6666"
+  }
+])
+
+
+SQL:
+INSERT INTO Customers (id, name, email, address, phone_number)
+VALUES
+  (1, 'John Doe', 'john.doe@example.com', '123 Main St, CityA', '123-456-7890'),
+  (2, 'Jane Smith', 'jane.smith@example.com', '456 Elm St, CityB', '987-654-3210'),
+  (3, 'Alice Johnson', 'alice.johnson@example.com', '789 Oak St, CityC', '555-123-4567'),
+  (4, 'Bob Williams', 'bob.williams@example.com', '321 Pine St, CityD', '111-222-3333'),
+  (5, 'Emily Davis', 'emily.davis@example.com', '654 Cedar St, CityE', '444-555-6666');
+
+3. Write a query to fetch all data from the **`Customers`** table / collection.
+
+MongoDB:
+db.Customers.find({})
+
+SQL:
+SELECT * FROM Customers;
+
+4. Write a query to select only the name and email fields for all customers.
+
+MongoDB:
+db.Customers.find({}, { name: 1, email: 1 })
+
+SQL:
+SELECT name, email FROM Customers;
+
+5. Write a query to fetch the customer with the **`id`** of 3.
+
+MongoDB:
+db.Customers.findOne({ _id: ObjectId("3") })
+
+SQL:
+SELECT * FROM Customers WHERE id = 3;
+
+6. Write a query to fetch all customers whose name starts with 'A'.
+
+MongoDB:
+db.Customers.find({ name: { $regex: /^A/i } })
+
+SQL:
+SELECT * FROM Customers WHERE name LIKE 'A%';
+
+7. Write a query to fetch all customers, ordered by name in descending order.
+
+MongoDB:
+db.Customers.find({}).sort({ name: -1 })
+
+SQL:
+SELECT * FROM Customers ORDER BY name DESC;
+
+8. Write a query to update the address of the customer with id 4.
+
+MongoDB:
+db.Customers.updateMany(
+  { _id: ObjectId("4") },
+  { $set: { address: "New Address" } }
+)
+
+SQL:
+UPDATE Customers SET address = 'New Address' WHERE id = 4;
+
+9. Write a query to fetch the top 3 customers when ordered by id in ascending order.
+
+MongoDB:
+db.Customers.find({}).sort({ _id: 1 }).limit(3)
+
+SQL:
+SELECT * FROM Customers ORDER BY id ASC LIMIT 3;
+
+10. Write a query to delete the customer with id 2.
+
+MongoDB:
+db.Customers.deleteOne({ _id: ObjectId("2") })
+
+SQL:
+db.Customers.deleteMany({ _id: ObjectId("2") })
+
+11. Write a query to count the number of customers.
+
+MongoDB:
+db.Customers.countDocuments()
+
+SQL:
+SELECT COUNT(*) FROM Customers;
+
+12. Write a query to fetch all customers except the first two when ordered by id in ascending order.
+
+MongoDB:
+db.Customers.find({}).sort({ _id: 1 }).skip(2)
+
+SQL:
+SELECT * FROM Customers ORDER BY id ASC OFFSET 2 ROWS;
+
+13. Write a query to fetch all customers whose id is greater than 2 and name starts with 'B'.
+
+MongoDB:
+db.Customers.find({ _id: { $gt: ObjectId("2") }, name: { $regex: /^B/i } })
+
+SQL:
+SELECT * FROM Customers WHERE id > 2 AND name LIKE 'B%';
+
+14. Write a query to fetch all customers whose id is less than 3 or name ends with 's'.
+
+MongoDB:
+db.Customers.find({
+  $or: [
+    { _id: { $lt: ObjectId("3") } },
+    { name: { $regex: /s$/i } }
+  ]
+})
+
+SQL:
+SELECT * FROM Customers WHERE id < 3 OR name LIKE '%s';
+
+15. Write a query to fetch all customers where the phone_number field is not set or is null.
+
+MongoDB:
+db.Customers.find({
+  $or: [
+    { phone_number: { $exists: false } },
+    { phone_number: null }
+  ]
+})
+
+SQL:
+SELECT * FROM Customers WHERE phone_number IS NULL;
+
+16. Create a Restaurants table / collection with the fields defined above.
+
+MongoDB:
+db.createCollection("Restaurants", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["name", "cuisine_type", "location", "average_rating", "delivery_available"],
+      properties: {
+        _id: {
+          bsonType: "objectId"
+        },
+        name: {
+          bsonType: "string"
+        },
+        cuisine_type: {
+          bsonType: "string"
+        },
+        location: {
+          bsonType: "string"
+        },
+        average_rating: {
+          bsonType: "number"
+        },
+        delivery_available: {
+          bsonType: "bool"
+        }
+      }
+    }
+  }
+})
+
+SQL:
+CREATE TABLE Restaurants (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    cuisine_type VARCHAR(100),
+    location VARCHAR(255),
+    average_rating DECIMAL(3,2),
+    delivery_available BOOLEAN
+);
+
+17. Insert five rows / documents into the Restaurants table / collection with data of your choice.
+
+MongoDB:
+db.Restaurants.insertMany([
+  {
+    "name": "Restaurant A",
+    "cuisine_type": "Italian",
+    "location": "City A",
+    "average_rating": 4.5,
+    "delivery_available": true
+  },
+  {
+    "name": "Restaurant B",
+    "cuisine_type": "Mexican",
+    "location": "City B",
+    "average_rating": 3.8,
+    "delivery_available": false
+  },
+  {
+    "name": "Restaurant C",
+    "cuisine_type": "Indian",
+    "location": "City C",
+    "average_rating": 4.2,
+    "delivery_available": true
+  },
+  {
+    "name": "Restaurant D",
+    "cuisine_type": "Chinese",
+    "location": "City D",
+    "average_rating": 4.0,
+    "delivery_available": true
+  },
+  {
+    "name": "Restaurant E",
+    "cuisine_type": "Japanese",
+    "location": "City E",
+    "average_rating": 4.8,
+    "delivery_available": true
+  }
+])
+
+
+SQL:
+INSERT INTO Restaurants (id, name, cuisine_type, location, average_rating, delivery_available)
+VALUES
+  (1, 'Restaurant A', 'Italian', 'City A', 4.5, true),
+  (2, 'Restaurant B', 'Mexican', 'City B', 3.8, false),
+  (3, 'Restaurant C', 'Indian', 'City C', 4.2, true),
+  (4, 'Restaurant D', 'Chinese', 'City D', 4.0, true),
+  (5, 'Restaurant E', 'Japanese', 'City E', 4.8, true);
+
+18. Write a query to fetch all restaurants, ordered by average_rating in descending order.
+
+MongoDB:
+db.Restaurants.find({}).sort({ average_rating: -1 })
+
+SQL:
+SELECT * FROM Restaurants ORDER BY average_rating DESC;
+
+19. Write a query to fetch all restaurants that offer delivery_available and have an average_rating of more than 4.
+
+MongoDB:
+db.Restaurants.find({
+  delivery_available: true,
+  average_rating: { $gt: 4 }
+})
+
+SQL:
+SELECT * FROM Restaurants WHERE delivery_available = true AND average_rating > 4;
+
+20. Write a query to fetch all restaurants where the cuisine_type field is not set or is null.
+
+MongoDB:
+db.Restaurants.find({
+  $or: [
+    { cuisine_type: { $exists: false } },
+    { cuisine_type: null }
+  ]
+})
+
+SQL:
+SELECT * FROM Restaurants WHERE cuisine_type IS NULL;
+
+21. Write a query to count the number of restaurants that have delivery_available.
+
+MongoDB:
+db.Restaurants.countDocuments({ delivery_available: true })
+
+SQL:
+SELECT COUNT(*) FROM Restaurants WHERE delivery_available = true;
+
+22. Write a query to fetch all restaurants whose location contains 'New York'.
+
+MongoDB:
+db.Restaurants.find({ location: { $regex: /New York/i } })
+
+SQL:
+SELECT * FROM Restaurants WHERE location LIKE '%New York%';
+
+23. Write a query to calculate the average average_rating of all restaurants.
+
+MongoDB:
+db.Restaurants.aggregate([
+  {
+    $group: {
+      _id: null,
+      average_rating: { $avg: "$average_rating" }
+    }
+  }
+])
+
+SQL:
+SELECT AVG(average_rating) FROM Restaurants;
+
+24. Write a query to fetch the top 5 restaurants when ordered by average_rating in descending order.
+
+MongoDB:
+db.Restaurants.find({}).sort({ average_rating: -1 }).limit(5)
+
+SQL:
+SELECT * FROM Restaurants ORDER BY average_rating DESC LIMIT 5;
+
+25. Write a query to delete the restaurant with id 3.
+
+MongoDB:
+db.Restaurants.deleteOne({ _id: ObjectId("3") })
+
+SQL:
+DELETE FROM Restaurants WHERE id = 3;
+
+26. Create a `Rides` table / collection with the fields defined above.
+
+MongoDB:
+db.createCollection("Rides", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["driver_id", "passenger_id", "start_location", "end_location", "distance", "ride_time", "fare"],
+      properties: {
+        _id: {
+          bsonType: "objectId"
+        },
+        driver_id: {
+          bsonType: "objectId"
+        },
+        passenger_id: {
+          bsonType: "objectId"
+        },
+        start_location: {
+          bsonType: "string"
+        },
+        end_location: {
+          bsonType: "string"
+        },
+        distance: {
+          bsonType: "number"
+        },
+        ride_time: {
+          bsonType: "number"
+        },
+        fare: {
+          bsonType: "number"
+        }
+      }
+    }
+  }
+})
+
+SQL:
+CREATE TABLE Rides (
+    id INT PRIMARY KEY,
+    driver_id INT,
+    passenger_id INT,
+    start_location VARCHAR(255),
+    end_location VARCHAR(255),
+    distance DECIMAL(5,2),
+    ride_time DECIMAL(5,2),
+    fare DECIMAL(6,2)
+);
+
+27. Insert five rows / documents into the Rides table / collection with data of your choice.
+
+MongoDB:
+db.Rides.insertMany([
+  {
+    "driver_id": ObjectId(),
+    "passenger_id": ObjectId(),
+    "start_location": "Location A",
+    "end_location": "Location B",
+    "distance": 10.5,
+    "ride_time": 30,
+    "fare": 20.5
+  },
+  {
+    "driver_id": ObjectId(),
+    "passenger_id": ObjectId(),
+    "start_location": "Location C",
+    "end_location": "Location D",
+    "distance": 8.2,
+    "ride_time": 25,
+    "fare": 18.75
+  },
+  {
+    "driver_id": ObjectId(),
+    "passenger_id": ObjectId(),
+    "start_location": "Location E",
+    "end_location": "Location F",
+    "distance": 5.7,
+    "ride_time": 15,
+    "fare": 12.25
+  },
+  {
+    "driver_id": ObjectId(),
+    "passenger_id": ObjectId(),
+    "start_location": "Location G",
+    "end_location": "Location H",
+    "distance": 13.1,
+    "ride_time": 40,
+    "fare": 25.0
+  },
+  {
+    "driver_id": ObjectId(),
+    "passenger_id": ObjectId(),
+    "start_location": "Location I",
+    "end_location": "Location J",
+    "distance": 11.8,
+    "ride_time": 35,
+    "fare": 22.5
+  }
+])
+
+SQL:
+INSERT INTO Rides (id, driver_id, passenger_id, start_location, end_location, distance, ride_time, fare)
+VALUES
+  (1, 1, 1, 'Location A', 'Location B', 10.5, 30, 20.5),
+  (2, 2, 2, 'Location C', 'Location D', 8.2, 25, 18.75),
+  (3, 3, 3, 'Location E', 'Location F', 5.7, 15, 12.25),
+  (4, 4, 4, 'Location G', 'Location H', 13.1, 40, 25.0),
+  (5, 5, 5, 'Location I', 'Location J', 11.8, 35, 22.5);
+
+28. Write a query to fetch all rides, ordered by fare in descending order.
+
+MongoDB:
+db.Rides.find({}).sort({ fare: -1 })
+
+SQL:
+SELECT * FROM Rides ORDER BY fare DESC;
+
+29. Write a query to calculate the total distance and total fare for all rides.
+
+MongoDB:
+db.Rides.aggregate([
+  {
+    $group: {
+      _id: null,
+      total_distance: { $sum: "$distance" },
+      total_fare: { $sum: "$fare" }
+    }
+  }
+])
+
+SQL:
+SELECT SUM(distance) AS total_distance, SUM(fare) AS total_fare FROM Rides;
+
+30. Write a query to calculate the average ride_time of all rides.
+
+MongoDB:
+db.Rides.aggregate([
+  {
+    $group: {
+      _id: null,
+      average_ride_time: { $avg: "$ride_time" }
+    }
+  }
+])
+
+SQL:
+SELECT AVG(ride_time) AS average_ride_time FROM Rides;
+
+31. Write a query to fetch all rides whose start_location or end_location contains 'Downtown'.
+
+MongoDB:
+db.Rides.find({
+  $or: [
+    { start_location: { $regex: /Downtown/i } },
+    { end_location: { $regex: /Downtown/i } }
+  ]
+})
+
+SQL:
+SELECT * FROM Rides WHERE start_location LIKE '%Downtown%' OR end_location LIKE '%Downtown%';
+
+32. Write a query to count the number of rides for a given driver_id.
+
+MongoDB:
+db.Rides.countDocuments({ driver_id: ObjectId("your_driver_id_here") })
+
+SQL:
+SELECT COUNT(*) FROM Rides WHERE driver_id = your_driver_id_here;
+
+33. Write a query to update the fare of the ride with id 4.
+
+MongoDB:
+db.Rides.updateOne(
+  { _id: ObjectId("4") },
+  { $set: { fare: new_fare_value } }
+)
+
+SQL:
+db.Rides.updateMany(
+  { _id: ObjectId("4") },
+  { $set: { fare: new_fare_value } }
+)
+
+34. Write a query to calculate the total fare for each driver_id.
+
+MongoDB:
+db.Rides.aggregate([
+  {
+    $group: {
+      _id: "$driver_id",
+      total_fare: { $sum: "$fare" }
+    }
+  }
+])
+
+SQL:
+SELECT driver_id, SUM(fare) AS total_fare FROM Rides GROUP BY driver_id;
+
+35. Write a query to delete the ride with id 2.
+
+MongoDB:
+db.Rides.deleteMany({ _id: ObjectId("2") })
+
+SQL:
+DELETE FROM Rides WHERE id = 2;
+
+36. Write a query to find the ride with the highest and lowest fare.
+
+MongoDB:
+db.Rides.aggregate([
+  { $sort: { fare: 1 } },
+  { $limit: 1 },
+  {
+    $project: {
+      _id: 0,
+      ride_id: "$_id",
+      fare: 1
+    }
+  }
+])
+
+SQL:
+db.Rides.aggregate([
+  { $sort: { fare: -1 } },
+  { $limit: 1 },
+  {
+    $project: {
+      _id: 0,
+      ride_id: "$_id",
+      fare: 1
+    }
+  }
+])
+
+37. Write a query to find the average fare and distance for each driver_id.
+
+MongoDB:
+db.Rides.aggregate([
+  {
+    $group: {
+      _id: "$driver_id",
+      average_fare: { $avg: "$fare" },
+      average_distance: { $avg: "$distance" }
+    }
+  }
+])
+
+SQL:
+SELECT driver_id, AVG(fare) AS average_fare, AVG(distance) AS average_distance FROM Rides GROUP BY driver_id;
+
+38. Write a query to find driver_id that have completed more than 5 rides.
+
+MongoDB:
+db.Rides.aggregate([
+  {
+    $group: {
+      _id: "$driver_id",
+      count: { $sum: 1 }
+    }
+  },
+  {
+    $match: {
+      count: { $gt: 5 }
+    }
+  },
+  {
+    $project: {
+      _id: 1
+    }
+  }
+])
+
+SQL:
+SELECT driver_id FROM Rides GROUP BY driver_id HAVING COUNT(*) > 5;
+
+39. Assuming there is another collection/table called Drivers with driver_id and name fields, write a query to find the name of the driver with the highest fare.
+
+MongoDB:
+db.Rides.aggregate([
+  {
+    $lookup: {
+      from: "Drivers",
+      localField: "driver_id",
+      foreignField: "driver_id",
+      as: "driver"
+    }
+  },
+  {
+    $unwind: "$driver"
+  },
+  {
+    $sort: { fare: -1 }
+  },
+  {
+    $limit: 1
+  },
+  {
+    $project: {
+      _id: 0,
+      driver_name: "$driver.name",
+      fare: 1
+    }
+  }
+])
+
+SQL:
+SELECT d.name AS driver_name, r.fare
+FROM Rides r
+JOIN Drivers d ON r.driver_id = d.driver_id
+ORDER BY r.fare DESC
+LIMIT 1;
+
+40. Write a query to find the top 3 drivers who have earned the most from fares. Return the drivers' ids and total earnings.
+
+MongoDB:
+db.Rides.aggregate([
+  {
+    $group: {
+      _id: "$driver_id",
+      total_earnings: { $sum: "$fare" }
+    }
+  },
+  {
+    $lookup: {
+      from: "Drivers",
+      localField: "_id",
+      foreignField: "driver_id",
+      as: "driver"
+    }
+  },
+  {
+    $unwind: "$driver"
+  },
+  {
+    $sort: { total_earnings: -1 }
+  },
+  {
+    $limit: 3
+  },
+  {
+    $project: {
+      _id: 0,
+      driver_id: "$_id",
+      total_earnings: 1
+    }
+  }
+])
+
+SQL:
+SELECT d.driver_id, SUM(r.fare) AS total_earnings
+FROM Rides r
+JOIN Drivers d ON r.driver_id = d.driver_id
+GROUP BY d.driver_id
+ORDER BY total_earnings DESC
+LIMIT 3;
+
+41. Assuming there's a ride_date field of date type in the Rides table / collection, write a query to find all rides that happened in the last 7 days.
+
+MongoDB:
+const currentDate = new Date();
+const sevenDaysAgo = new Date(currentDate.getTime() - (7 * 24 * 60 * 60 * 1000));
+
+db.Rides.find({ ride_date: { $gte: sevenDaysAgo, $lt: currentDate } })
+
+SQL:
+SELECT * FROM Rides WHERE ride_date BETWEEN CURRENT_DATE - INTERVAL 7 DAY AND CURRENT_DATE;
+
+42. Write a query to find all rides where the end_location is not set.
+
+MongoDB:
+db.Rides.find({ end_location: { $exists: false } })
+
+SQL:
+SELECT * FROM Rides WHERE end_location IS NULL;
+
+43. Write a query to calculate the fare per mile for each ride and return the ride ids and their fare per mile, ordered by fare per mile in descending order.
+
+MongoDB:
+db.Rides.aggregate([
+  {
+    $project: {
+      ride_id: "$_id",
+      fare_per_mile: { $divide: ["$fare", "$distance"] }
+    }
+  },
+  {
+    $addFields: {
+      fare_per_mile: { $ifNull: ["$fare_per_mile", 0] }
+    }
+  },
+  {
+    $sort: { fare_per_mile: -1 }
+  }
+])
+
+SQL:
+SELECT ride_id, fare / distance AS fare_per_mile
+FROM Rides
+ORDER BY fare_per_mile DESC;
+
+44. Assuming there's another collection/table Passengers with passenger_id and name fields, write a query to return a list of all rides including the driver's name and passenger's name.
+
+MongoDB:
+db.Rides.aggregate([
+  {
+    $lookup: {
+      from: "Drivers",
+      localField: "driver_id",
+      foreignField: "driver_id",
+      as: "driver"
+    }
+  },
+  {
+    $lookup: {
+      from: "Passengers",
+      localField: "passenger_id",
+      foreignField: "passenger_id",
+      as: "passenger"
+    }
+  },
+  {
+    $unwind: "$driver"
+  },
+  {
+    $unwind: "$passenger"
+  },
+  {
+    $project: {
+      _id: 1,
+      driver_name: "$driver.name",
+      passenger_name: "$passenger.name"
+    }
+  }
+])
+
+SQL:
+SELECT Rides._id, Drivers.name AS driver_name, Passengers.name AS passenger_name
+FROM Rides
+JOIN Drivers ON Rides.driver_id = Drivers.driver_id
+JOIN Passengers ON Rides.passenger_id = Passengers.passenger_id;
+
+45. ALTER TABLE Rides ADD COLUMN tip DECIMAL(6, 2) DEFAULT 0;
+
+MongoDB:
+db.Rides.aggregate([
+  {
+    $addFields: {
+      tip: 0  // Default value for the tip field
+    }
+  },
+  {
+    $out: "Rides"  // Overwrite the existing Rides collection with the updated documents
+  }
+])
+
+SQL:
+ALTER TABLE Rides ADD COLUMN tip DECIMAL(6, 2) DEFAULT 0;
+
+
