@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaTrash } from "react-icons/fa";
+// import { FaIconName } from 'react-icons/fa';
 
 export const TodoItem = ({ todo, onDelete, onStatus, onEdit }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -61,7 +61,7 @@ export const TodoItem = ({ todo, onDelete, onStatus, onEdit }) => {
       </td>
       <td>
         <button onClick={handleDelete}>
-          <FaTrash />
+          {/* <FaIconName /> */}
         </button>
       </td>
     </tr>
